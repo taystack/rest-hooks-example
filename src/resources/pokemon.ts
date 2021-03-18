@@ -1,4 +1,5 @@
 import { Endpoint } from '@rest-hooks/endpoint'
+import { Resource } from '@rest-hooks/rest'
 import { Entity } from '@rest-hooks/normalizr'
 import { BasicIndexItem, blankBasicItem } from './base'
 
@@ -7,7 +8,7 @@ export interface PokemonIndexResponse {
   readonly count: number
   readonly next: string | null
   readonly previous: string | null
-  readonly results: BasicIndexItem[]
+  readonly results: PokemonIndexItem[]
 }
 
 export interface PokemonShowAbility {
@@ -83,13 +84,21 @@ const nullSprites = {
   },
 }
 
-export class PokemonIndexItem extends Entity {
+export class PokemonIndexItem extends Resource {
   readonly name: string = ''
   readonly url: string = ''
 
-  pk() { return this.name }
-
+  static urlRoot = 'https://pokeapi.co/api/v2/pokemon/';
+  
+  static list<T extends typeof Resource>(this: T) {
+    return super.list().extend({
+      schema: { results: [this], next: null, previous: null, count: 0 },
+    });
+  }
+  
   static indexes = ['name'] as const;
+
+  pk() { return this.name }
 }
 
 export class Pokemon extends Entity {
@@ -115,10 +124,10 @@ export class Pokemon extends Entity {
   pk() { return this.name }
 }
 
-export const PokemonList = new Endpoint(
-  () => fetch('https://pokeapi.co/api/v2/pokemon/').then(res => res.json()),
-  { schema: { results: [PokemonIndexItem] } }
-)
+// export const PokemonList = new Endpoint(
+//   () => fetch('https://pokeapi.co/api/v2/pokemon/').then(res => res.json()),
+//   { schema: { results: [PokemonIndexItem], count: 0, previous: null, next: null }}
+// )
 
 export const PokemonDetail = new Endpoint(
   ({ name }) => fetch(`https://pokeapi.co/api/v2/pokemon/${name}`).then(res => res.json()),

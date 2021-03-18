@@ -102,6 +102,10 @@ export class Move extends Entity {
   readonly type: BasicIndexItem = blankBasicItem
 
   pk() { return this.name }
+
+  flavorTextEntry() { return this.flavor_text_entries[0] }
+
+  typeName() { return this.type.name }
 }
 
 export const MoveDetail = new Endpoint(

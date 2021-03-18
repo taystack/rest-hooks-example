@@ -12,4 +12,4 @@ export const useLatestVersionGroup = (
   versionGroupDetails: PokemonMoveVersionGroupDetails[]
 ): PokemonMoveVersionGroupDetails => useMemo(() => (
   getLatestVersionGroup(versionGroupDetails)
-), [])
+), [versionGroupDetails])

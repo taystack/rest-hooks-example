@@ -1,4 +1,4 @@
-import { createContext, useCallback, useReducer } from 'react'
+import { createContext, useReducer } from 'react'
 import { PokemonMoveIndexItem } from '../resources/pokemon'
 
 const omitKey = (obj: MoveKeys, removeKey: string): MoveKeys => {
@@ -53,9 +53,9 @@ const moveReducer = (store: MoveCompareStore = defaultState, action: MoveCompare
 
 export const useMoveCompareReducer = (): UseMoveCompareReducer => {
   const [store, dispatch] = useReducer(moveReducer, {}, init)
-  const addMove = useCallback((move: PokemonMoveIndexItem) => {
+  const addMove = (move: PokemonMoveIndexItem) => {
     dispatch({ type: 'TOGGLE_MOVE', move: move })
-  }, [store])
+  }
   return {
     ...store,
     addMove,

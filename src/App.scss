@@ -1,3 +1,13 @@
+$theme-colors: (
+  "faded": #ebf3f9,
+  "bug": #b9e070,
+);
+
+$btn-border-radius: 3000px;
+
+@import "~bootstrap/scss/bootstrap";
+
+
 .App {
   text-align: center;
 }
